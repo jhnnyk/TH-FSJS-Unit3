@@ -82,25 +82,43 @@ document.addEventListener('DOMContentLoaded', () => {
       const button = e.target;
       const li = button.parentNode;
       const ul = li.parentNode;
+      const action = button.textContent;
 
-      if (e.target.textContent === 'remove') {
-        ul.removeChild(li);
-      } else if (button.textContent === 'edit') {
-        const span = li.firstElementChild;
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.value = span.textContent;
-        li.insertBefore(input, span);
-        li.removeChild(span);
-        button.textContent = 'save';
-      } else if (button.textContent === 'save') {
-        const input = li.firstElementChild;
-        const span = document.createElement('span');
-        span.textContent = input.value;
-        li.insertBefore(span, input);
-        li.removeChild(input);
-        button.textContent = 'edit'
+      const nameActions = {
+        remove: () => {
+          ul.removeChild(li);
+        },
+        edit: () => {
+          const span = li.firstElementChild;
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.value = span.textContent;
+          li.insertBefore(input, span);
+          li.removeChild(span);
+          button.textContent = 'save';
+        },
+        save: () => {
+          const input = li.firstElementChild;
+          const span = document.createElement('span');
+          span.textContent = input.value;
+          li.insertBefore(span, input);
+          li.removeChild(input);
+          button.textContent = 'edit'
+        }
       }
+
+      // select and run action in button's name
+      nameActions[action]();
+      // because the name of the action matches the keys in
+      // our nameAction object, the line above can replace
+      // the conditional below
+      // if (button.textContent === 'remove') {
+      //   nameActions.remove();
+      // } else if (button.textContent === 'edit') {
+      //   nameActions.edit();
+      // } else if (button.textContent === 'save') {
+      //   nameActions.save();
+      // }
     }
   });
 });
